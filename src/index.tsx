@@ -20,7 +20,7 @@ root.render(
           <Routes>
               <Route path="/" element={<App />}/>
               <Route path="spells" element={<Spells />} />
-              <Route path="spell/:spell" element={<SpellDetails />} />
+              <Route path="spells/:spellIndex" element={<SpellDetails />} />
           </Routes>
       </BrowserRouter>
   </React.StrictMode>

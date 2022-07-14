@@ -26,7 +26,7 @@ function RowDetails(props: RowDetailsProps): JSX.Element {
     const navigate = useNavigate();
 
     const handleViewDetails = (index: string) => {
-        navigate(`/spell/${index}`)
+        navigate(`/spells/${index}`, { state: details })
     }
 
     return (
@@ -95,7 +95,7 @@ function RowDetails(props: RowDetailsProps): JSX.Element {
                         Attack
                     </Box>
                     <Box>
-                        {details.attack_type}
+                        {details.attack_type || 'N/A'}
                     </Box>
                 </Box>
                 <Box sx={styles.item}>

@@ -16,6 +16,8 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import {Details, Spell} from '../types/types'
 import {fetchData} from '../utils'
 import {Routes} from '../api'
@@ -107,6 +109,7 @@ function SpellsTable(props: SpellsProps) {
     const [tableData, setTableData] = useState<TableDataType[]>([])
     const [details, setDetails] = useState<{ [key: string]: object }>({})
     const [detailsOpen, setDetailsOpen] = useState<string[]>([])
+    const [favoriteIndex, setFavotiteIndex] = useState<string[]>([])
 
     useEffect(() => {
         const tData = data.map(item => {
@@ -123,7 +126,9 @@ function SpellsTable(props: SpellsProps) {
         event: React.MouseEvent<HTMLButtonElement> | null,
         newPage: number,
     ) => {
-        setPage(newPage);
+        setPage(newPage)
+        setDetails({})
+        setDetailsOpen([])
     };
 
     const handleChangeRowsPerPage = (
@@ -139,16 +144,28 @@ function SpellsTable(props: SpellsProps) {
 
     const showDetails = async (route: string) => {
         let newDetailsOpen
-        const spellDetails = await fetchData(`${Routes.SPELLS}/${route}`)
-        setDetails({...details, [route]: spellDetails})
+
+        if(!details[route]) {
+            const spellDetails = await fetchData(`${Routes.SPELLS}/${route}`)
+            setDetails({...details, [route]: spellDetails})
+        }
 
         if (detailsOpen.includes(route)) {
             newDetailsOpen = detailsOpen.filter(index => index !== route)
         } else {
             newDetailsOpen = [...detailsOpen, route]
         }
-
         setDetailsOpen(newDetailsOpen)
+    }
+
+    const handleFavorite = (index: string) => {
+        let newFavoriteIndex
+        if (favoriteIndex.includes(index)) {
+            newFavoriteIndex = favoriteIndex.filter(i => i !== index)
+        } else {
+            newFavoriteIndex = [...favoriteIndex, index]
+        }
+        setFavotiteIndex(newFavoriteIndex)
     }
 
     return (
@@ -156,8 +173,9 @@ function SpellsTable(props: SpellsProps) {
             <Table sx={{minWidth: 250}} aria-label="custom pagination table">
                 <TableHead>
                     <TableRow>
-                        <TableCell sx={styles.headerTitle}>Name</TableCell>
-                        <TableCell align="right"></TableCell>
+                        <TableCell sx={{...styles.headerTitle, width: '160px'}} align="left">Favorite</TableCell>
+                        <TableCell sx={styles.headerTitle} align={'left'}>Name</TableCell>
+                        <TableCell align="right" sx={{width: '60px'}}></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -168,9 +186,17 @@ function SpellsTable(props: SpellsProps) {
                         <React.Fragment key={row.index}>
                             <TableRow>
                                 <TableCell component="th" scope="row" sx={styles.rowTitle}>
+                                    {favoriteIndex.includes(row.index) ? (
+                                        <FavoriteIcon sx={styles.favorite} onClick={() => handleFavorite(row.index)}/>
+
+                                    ) : (
+                                        <FavoriteBorderIcon sx={styles.favorite} onClick={() => handleFavorite(row.index)}/>
+                                    )}
+                                </TableCell>
+                                <TableCell component="th" scope="row" sx={styles.rowTitle}>
                                     {row.name}
                                 </TableCell>
-                                <TableCell style={{width: 160}} align="right">
+                                <TableCell align="right">
                                     <IconButton onClick={() => showDetails(row.index)}>
                                         <ExpandMoreIcon
                                             sx={{
@@ -242,11 +268,15 @@ export default SpellsTable
 
 const styles = {
     headerTitle: {
-        fontSize: 24,
+        fontSize: 18,
         fontWeight: 700
     },
     rowTitle: {
         fontSize: 18,
-        fontWeight: 600
+        fontWeight: 500,
+        fontStyle: 'italic'
     },
+    favorite: {
+        cursor: 'pointer'
+    }
 }
