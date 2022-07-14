@@ -1,9 +1,9 @@
-import React, {useEffect, useState, Key} from 'react'
-import {SpellsResponse, Spell, fetchResponse, errorResponse} from '../types/types'
+import React, {useEffect, useState} from 'react'
+import {errorResponse, fetchResponse, Spell} from '../types/types'
 import SpellsTable from './SpellsTable'
 
 import styles from './Spells.module.css'
-import {api_url, Routes} from '../api'
+import {Routes} from '../api'
 import {fetchData} from '../utils'
 
 const Spells = () => {
@@ -15,8 +15,8 @@ const Spells = () => {
 
     const fetchSpells = async () => {
         const res: fetchResponse = await fetchData(Routes.SPELLS)
-        if('results' in res) setSpellsResponse(res.results)
-        if('error' in res) setSpellsResponse(res)
+        if ('results' in res) setSpellsResponse(res.results)
+        if ('error' in res) setSpellsResponse(res)
     }
 
     return (
