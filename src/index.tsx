@@ -9,6 +9,7 @@ import {
     Routes,
     Route,
 } from "react-router-dom";
+import SpellDetails from "./components/SpellDetails";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,6 +20,7 @@ root.render(
           <Routes>
               <Route path="/" element={<App />}/>
               <Route path="spells" element={<Spells />} />
+              <Route path="spell/:spell" element={<SpellDetails />} />
           </Routes>
       </BrowserRouter>
   </React.StrictMode>

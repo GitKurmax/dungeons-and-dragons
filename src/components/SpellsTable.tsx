@@ -16,9 +16,10 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {Spell} from '../types/types'
+import {Details, Spell} from '../types/types'
 import {fetchData} from '../utils'
 import {Routes} from '../api'
+import RowDetails from "./RowDetails";
 
 type TableDataType = {
     index: string,
@@ -151,11 +152,11 @@ function SpellsTable(props: SpellsProps) {
     }
 
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{minWidth: 500}} aria-label="custom pagination table">
+        <TableContainer component={Paper} sx={{maxWidth: 1040, margin: 'auto', border: 'none'}}>
+            <Table sx={{minWidth: 250}} aria-label="custom pagination table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Name</TableCell>
+                        <TableCell sx={styles.headerTitle}>Name</TableCell>
                         <TableCell align="right"></TableCell>
                     </TableRow>
                 </TableHead>
@@ -166,7 +167,7 @@ function SpellsTable(props: SpellsProps) {
                     ).map((row: TableDataType) => (
                         <React.Fragment key={row.index}>
                             <TableRow>
-                                <TableCell component="th" scope="row">
+                                <TableCell component="th" scope="row" sx={styles.rowTitle}>
                                     {row.name}
                                 </TableCell>
                                 <TableCell style={{width: 160}} align="right">
@@ -182,24 +183,25 @@ function SpellsTable(props: SpellsProps) {
                             <TableRow sx={{
                                 textAlign: 'center',
                                 width: '100%',
+                                border: 'none'
                             }}>
-                                <TableCell sx={{border: 'none', padding: 0}}>
+                                <TableCell sx={{border: 'none', padding: 0}} colSpan={2}>
                                     <Box sx={{
-                                        textAlign: 'center',
-                                        margin: 'auto',
-                                        maxHeight: detailsOpen.includes(row.index) ? '200px' : 0,
-                                        width: '100%',
+                                        maxHeight: detailsOpen.includes(row.index) ? '700px' : 0,
                                         overflowY: 'hidden',
-                                        transition: 'max-height 0.2s ease-out'
+                                        transition: 'all 0.2s ease-out',
+                                        padding: detailsOpen.includes(row.index) ? '10px 30px' : '0 30px',
+                                        marginLeft: '100px',
+                                        background: 'lightgrey'
                                     }}>
-                                        {details[row.index] && <Box>{JSON.stringify(details[row.index])}</Box>}
+                                        {details[row.index] && <RowDetails details={details[row.index] as Details}/>}
                                     </Box>
                                 </TableCell>
                             </TableRow>
                         </React.Fragment>
                     ))}
                     {emptyRows > 0 && (
-                        <TableRow style={{height: 65 * emptyRows}}>
+                        <TableRow style={{height: 73 * emptyRows}}>
                             <TableCell colSpan={6}/>
                         </TableRow>
                     )}
@@ -207,6 +209,13 @@ function SpellsTable(props: SpellsProps) {
                 <TableFooter>
                     <TableRow>
                         <TablePagination
+                            sx={{
+                                '& .MuiToolbar-root': {
+                                    flexWrap: 'wrap',
+                                    justifyContent: 'center',
+                                    padding: '0 16px'
+                                }
+                            }}
                             rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}
                             colSpan={3}
                             count={tableData.length}
@@ -230,3 +239,14 @@ function SpellsTable(props: SpellsProps) {
 }
 
 export default SpellsTable
+
+const styles = {
+    headerTitle: {
+        fontSize: 24,
+        fontWeight: 700
+    },
+    rowTitle: {
+        fontSize: 18,
+        fontWeight: 600
+    },
+}
