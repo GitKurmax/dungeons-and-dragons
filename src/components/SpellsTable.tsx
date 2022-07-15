@@ -22,6 +22,7 @@ import {Details, Spell} from '../types/types'
 import {fetchData} from '../utils'
 import {Routes} from '../api'
 import RowDetails from "./RowDetails";
+import {Switch} from "@mui/material";
 
 type TableDataType = {
     index: string,
@@ -110,6 +111,8 @@ function SpellsTable(props: SpellsProps) {
     const [details, setDetails] = useState<{ [key: string]: object }>({})
     const [detailsOpen, setDetailsOpen] = useState<string[]>([])
     const [favoriteIndex, setFavotiteIndex] = useState<string[]>([])
+    const [showFavorite, setShowFavorite] = useState<boolean>(false)
+    const [checked, setChecked] = useState(false);
 
     useEffect(() => {
         const tData = data.map(item => {
@@ -139,6 +142,11 @@ function SpellsTable(props: SpellsProps) {
     };
 
     const showTableData = () => {
+        if(showFavorite) {
+            return tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .filter(item => favoriteIndex.includes(item.index))
+        }
+
         return tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
     }
 
@@ -168,12 +176,28 @@ function SpellsTable(props: SpellsProps) {
         setFavotiteIndex(newFavoriteIndex)
     }
 
+    const handleSwitch = () => {
+        if(!checked) {
+            setShowFavorite(true)
+        } else {
+            setShowFavorite(false)
+        }
+        setChecked(!checked)
+    }
+
     return (
         <TableContainer component={Paper} sx={{maxWidth: 1040, margin: 'auto', border: 'none'}}>
             <Table sx={{minWidth: 250}} aria-label="custom pagination table">
                 <TableHead>
                     <TableRow>
-                        <TableCell sx={{...styles.headerTitle, width: '160px'}} align="left">Favorite</TableCell>
+                        <TableCell sx={{...styles.headerTitle, width: '160px'}} align="left">
+                            Favorite
+                            <Switch
+                                disabled={Boolean(!favoriteIndex.length)}
+                                checked={checked}
+                                onChange={handleSwitch}
+                            />
+                        </TableCell>
                         <TableCell sx={styles.headerTitle} align={'left'}>Name</TableCell>
                         <TableCell align="right" sx={{width: '60px'}}></TableCell>
                     </TableRow>
@@ -244,7 +268,7 @@ function SpellsTable(props: SpellsProps) {
                             }}
                             rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}
                             colSpan={3}
-                            count={tableData.length}
+                            count={showFavorite ? favoriteIndex.length : tableData.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             SelectProps={{
