@@ -1,34 +1,135 @@
-import React, {ReactNode} from 'react'
-import {useLocation} from "react-router-dom"
-import {Paper, Typography} from '@mui/material'
-import {Details} from "../types/types";
+import React, {useState} from 'react'
+import {Button, IconButton, Paper, Typography} from '@mui/material'
+import {Details} from "../types/types"
+import Box from "@mui/material/Box"
+import CloseIcon from '@mui/icons-material/Close'
+import {fetchData} from "../utils"
 
-const SpellDetails = () => {
-    const {state} = useLocation()
-    console.log(state)
+const styles = {
+    paper: {
+        position: 'relative',
+        maxWidth: 1040,
+        padding: '30px',
+    },
+    itemTitle: {
+        fontWeight: '600',
+        marginRight: '10px'
+    },
+    close: {
+        position: 'absolute',
+        top: '5px',
+        right: '5px'
+    }
+}
+
+const SpellDetails = ({state, closeModal}: { state: Details, closeModal: () => void }) => {
+    const [schoolDesc, setSchoolDesc] = useState<string>('')
+    const [subClassDesc, setSubClassDesc] = useState<string>('')
+
+    const fetchDetailsData = async (url: string, index: string) => {
+        const res: any = await fetchData(url, true)
+        switch (index) {
+            case 'school':
+                setSchoolDesc(res.desc)
+                break
+            case 'subClasses':
+                setSubClassDesc(res.desc)
+                break
+            default:
+                return
+        }
+    }
+
     return (
-        <Paper sx={{
-            maxWidth: 1040,
-            margin: '50px auto 0',
-            padding: '30px'
-        }} elevation={3}>
-            <Typography align={'center'} fontSize={36} fontWeight={600}>{(state as Details).name}</Typography>
-            <Typography align={'center'} fontSize={12} fontWeight={400} mb={2}>{(state as Details).desc}</Typography>
-            <Typography align={'center'} fontSize={12} fontWeight={400} mb={2}>{(state as Details).higher_level}</Typography>
-            <Typography align={'center'} fontSize={12} fontWeight={400} mb={2}>Range: {(state as Details).range}</Typography>
-            <Typography align={'center'} fontSize={12} fontWeight={400} mb={2}>Components: {(state as Details).components}</Typography>
-            <Typography align={'center'} fontSize={12} fontWeight={400} mb={2}>Material: {(state as Details).material}</Typography>
-            <Typography align={'center'} fontSize={12} fontWeight={400} mb={2}>Duration: {(state as Details).duration}</Typography>
-            <Typography align={'center'} fontSize={12} fontWeight={400} mb={2}>Casting time: {(state as Details).casting_time}</Typography>
-            <Typography align={'center'} fontSize={12} fontWeight={400} mb={2}>Level: {(state as Details).level}</Typography>
-            <Typography align={'center'} fontSize={12} fontWeight={400} mb={2}>Attack type: {(state as Details).attack_type}</Typography>
-            <Typography align={'center'} fontSize={12} fontWeight={400} mb={2}>Damage: {(state as Details).damage.damage_type.toString()}</Typography>
-            <Typography align={'center'} fontSize={12} fontWeight={400} mb={2}>Damage at slot level: {(state as Details).damage.damage_at_slot_level.toString()}</Typography>
-            <Typography align={'center'} fontSize={12} fontWeight={400} mb={2}>School: {(state as Details).school.toString()}</Typography>
-            <Typography align={'center'} fontSize={12} fontWeight={400} mb={2}>Classes: {(state as Details).classes.toString()}</Typography>
-            <Typography align={'center'} fontSize={12} fontWeight={400} mb={2}>Subclasses: {(state as Details).subclasses.toString()}</Typography>
+        <Paper sx={styles.paper} elevation={3}>
+            <IconButton sx={styles.close} onClick={closeModal}>
+                <CloseIcon color={'secondary'}/>
+            </IconButton>
+            <Typography color={'secondary'} align={'center'} fontSize={36} fontWeight={600}>{state.name}</Typography>
+            <Typography align={'justify'} fontSize={12} fontWeight={400} mb={2}>{state.desc}</Typography>
+            <Typography align={'justify'} fontSize={12} fontWeight={400} mb={2}>{state.higher_level}</Typography>
+            <Typography align={'left'} fontSize={12} fontWeight={400} mb={2}>
+                <Box component='span' sx={styles.itemTitle}>
+                    Range:
+                </Box>
+                {state.range}
+            </Typography>
+            <Typography align={'left'} fontSize={12} fontWeight={400} mb={2}>
+                <Box component='span' sx={styles.itemTitle}>
+                    Components:
+                </Box>
+                {state.components.join('-')}
+            </Typography>
+            <Typography align={'left'} fontSize={12} fontWeight={400} mb={2}>
+                <Box component='span' sx={styles.itemTitle}>Material:</Box>
+                {state.material}
+            </Typography>
+            <Typography align={'left'} fontSize={12} fontWeight={400} mb={2}>
+                <Box component='span' sx={styles.itemTitle}>Duration:</Box>
+                {state.duration}
+            </Typography>
+            <Typography align={'left'} fontSize={12} fontWeight={400} mb={2}>
+                <Box component='span' sx={styles.itemTitle}>Casting time:</Box>
+                {state.casting_time}
+            </Typography>
+            <Typography align={'left'} fontSize={12} fontWeight={400} mb={2}>
+                <Box component='span' sx={styles.itemTitle}>Level:</Box>
+                {state.level}
+            </Typography>
+            {state.attack_type && <Typography align={'left'} fontSize={12} fontWeight={400} mb={2}>
+                <Box component='span' sx={styles.itemTitle}>Attack type:</Box>
+                {state.attack_type}
+            </Typography>}
+            {state.damage?.damage_type && <Typography
+                align={'left'}
+                fontSize={12}
+                fontWeight={400} mb={2}
+            >
+                <Box component='span' sx={styles.itemTitle}>Damage:</Box>
+                {state.damage?.damage_type.name}
+            </Typography>}
+            {state.damage?.damage_at_slot_level && <Typography
+                align={'left'}
+                fontSize={12}
+                fontWeight={400}
+                mb={2}>
+                <Box component='span' sx={styles.itemTitle}>Damage at slot level:</Box>
+                {state.damage?.damage_at_slot_level?.toString()}
+            </Typography>}
+            {state.school && <Typography align={'left'} fontSize={12} fontWeight={400}>
+                <Box
+                    component='span'
+                    sx={styles.itemTitle}>
+                    School:
+                </Box>
+                <Button color={'secondary'} onClick={() => fetchDetailsData(state.school.url, 'school')}>
+                    {state.school.name}
+                </Button>
+                <Box>
+                    {schoolDesc}
+                </Box>
+            </Typography>}
+            {state.classes && <Typography align={'left'} fontSize={12} fontWeight={400}>
+                <Box component='span' sx={styles.itemTitle}>Classes: </Box>
+                {state.classes.map(item => (
+                    <Box component={'span'}>
+                        {item.name}
+                    </Box>
+                ))}
+            </Typography>}
+            {state.subclasses && <Typography align={'left'} fontSize={12} fontWeight={400}>
+                <Box component='span' sx={styles.itemTitle}>Subclasses: </Box>
+                {state.subclasses.map(item => (
+                    <Button color={'secondary'} onClick={() => fetchDetailsData(item.url, 'subClasses')}>
+                        {item.name}
+                    </Button>
+                ))}
+                <Box>
+                    {subClassDesc}
+                </Box>
+            </Typography>}
         </Paper>
-    );
-};
+    )
+}
 
-export default SpellDetails;
+export default SpellDetails

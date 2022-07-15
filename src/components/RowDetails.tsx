@@ -2,10 +2,10 @@ import React from 'react';
 import Box from "@mui/material/Box";
 import {Details} from "../types/types";
 import {Button} from "@mui/material";
-import {useNavigate} from "react-router-dom";
 
 type RowDetailsProps = {
     details: Details
+    openModal: (open: boolean) => void
 }
 
 const styles = {
@@ -13,95 +13,73 @@ const styles = {
         flex: '1',
         '& > div:first-of-type': {
             fontSize: 16,
-            fontWeight: 600
+            fontWeight: 600,
+            '@media screen and (max-width: 450px)': {
+                fontSize: 14,
+            }
         },
         '& > div:last-child': {
-           padding: '5px 0 10px'
+            padding: '5px 0 10px',
+            '@media screen and (max-width: 450px)': {
+                fontSize: 10,
+            }
         }
+    },
+    sectionWrapper: {
+        display: 'flex',
+        flexDirection: 'row',
+        textAlign: 'left',
+    },
+    description: {
+        textAlign: 'justify'
+    },
+    button: {
+        margin: '10px 10px 10px 0',
     }
 }
 
 function RowDetails(props: RowDetailsProps): JSX.Element {
-    const {details} = props
-    const navigate = useNavigate();
+    const {details, openModal} = props
 
-    const handleViewDetails = (index: string) => {
-        navigate(`/spells/${index}`, { state: details })
+    const handleViewDetails = () => {
+        openModal(true)
     }
 
     return (
         <>
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                textAlign: 'left'
-            }}>
+            <Box sx={styles.sectionWrapper}>
                 <Box sx={styles.item}>
-                    <Box>
-                        Level
-                    </Box>
-                    <Box>
-                        {details.level}
-                    </Box>
+                    <Box>Level</Box>
+                    <Box>{details.level}</Box>
                 </Box>
                 <Box sx={styles.item}>
-                    <Box>
-                        Duration
-                    </Box>
-                    <Box>
-                        {details.duration}
-                    </Box>
+                    <Box>Duration</Box>
+                    <Box>{details.duration}</Box>
                 </Box>
                 <Box sx={styles.item}>
-                    <Box>
-                        Casting time
-                    </Box>
-                    <Box>
-                        {details.casting_time}
-                    </Box>
+                    <Box>Casting time</Box>
+                    <Box>{details.casting_time}</Box>
                 </Box>
                 <Box sx={styles.item}>
-                    <Box>
-                        School
-                    </Box>
-                    <Box>
-                        {details.school.name}
-                    </Box>
+                    <Box>School</Box>
+                    <Box>{details.school.name}</Box>
                 </Box>
             </Box>
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                textAlign: 'left'
-            }}>
+            <Box sx={styles.sectionWrapper}>
                 <Box sx={styles.item}>
-                    <Box>
-                        School
-                    </Box>
-                    <Box>
-                        {details.school.name}
-                    </Box>
+                    <Box>School</Box>
+                    <Box>{details.school.name}</Box>
                 </Box>
                 <Box sx={styles.item}>
-                    <Box>
-                        Range
-                    </Box>
-                    <Box>
-                        {details.range}
-                    </Box>
+                    <Box>Range</Box>
+                    <Box>{details.range}</Box>
                 </Box>
                 <Box sx={styles.item}>
-                    <Box>
-                        Attack
-                    </Box>
-                    <Box>
-                        {details.attack_type || 'N/A'}
-                    </Box>
+                    <Box>Attack</Box>
+                    <Box>{details.attack_type || 'N/A'}</Box>
                 </Box>
                 <Box sx={styles.item}>
-                    <Box>
-                        Components
-                    </Box>
+                    <Box>Components</Box>
                     <Box>
                         {details.components.map((c: string, index: number) => (
                             <span key={index}>{c}</span>
@@ -109,18 +87,14 @@ function RowDetails(props: RowDetailsProps): JSX.Element {
                     </Box>
                 </Box>
             </Box>
-            <Box sx={{textAlign: 'justify'}}>
-                {details.desc}
-            </Box>
+            <Box sx={styles.description}>{details.desc}</Box>
             <Button
-                sx={{
-                    margin: '10px 10px 10px 0',
-                }}
+                color={'secondary'}
+                sx={styles.button}
                 variant={'contained'}
-                onClick={() => handleViewDetails(details.index)}
+                onClick={handleViewDetails}
             >View all details</Button>
         </>
-
     )
 }
 
