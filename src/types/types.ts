@@ -34,6 +34,10 @@ export type Spell = {
     url: string
 }
 
+export interface SpellWithDescription extends Spell{
+    desc: string
+}
+
 export type SpellsResponse = {
     count: number,
     results: Spell[]

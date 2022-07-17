@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {Button, IconButton, Paper, Typography} from '@mui/material'
-import {Details} from "../types/types"
+import {Details, SpellWithDescription} from "../types/types"
 import Box from "@mui/material/Box"
 import CloseIcon from '@mui/icons-material/Close'
 import {fetchData} from "../utils"
@@ -27,16 +27,16 @@ const SpellDetails = ({state, closeModal}: { state: Details, closeModal: () => v
     const [subClassDesc, setSubClassDesc] = useState<string>('')
 
     const fetchDetailsData = async (url: string, index: string) => {
-        const res: any = await fetchData(url)
+        const res: SpellWithDescription = await fetchData(url)
+
         switch (index) {
             case 'school':
                 setSchoolDesc(res.desc)
-                break
+                return
             case 'subClasses':
                 setSubClassDesc(res.desc)
-                break
-            default:
                 return
+
         }
     }
 
@@ -102,7 +102,10 @@ const SpellDetails = ({state, closeModal}: { state: Details, closeModal: () => v
                     sx={styles.itemTitle}>
                     School:
                 </Box>
-                <Button color={'secondary'} onClick={() => fetchDetailsData(state.school.url, 'school')}>
+                <Button
+                    color={'secondary'}
+                    onClick={() => fetchDetailsData(state.school.url, 'school')
+                    }>
                     {state.school.name}
                 </Button>
                 <Box>
@@ -120,7 +123,8 @@ const SpellDetails = ({state, closeModal}: { state: Details, closeModal: () => v
             {state.subclasses && <Typography component={'div'} align={'left'} fontSize={12} fontWeight={400}>
                 <Box component='span' sx={styles.itemTitle}>Subclasses: </Box>
                 {state.subclasses.map(item => (
-                    <Button key={item.index} color={'secondary'} onClick={() => fetchDetailsData(item.url, 'subClasses')}>
+                    <Button key={item.index} color={'secondary'}
+                            onClick={() => fetchDetailsData(item.url, 'subClasses')}>
                         {item.name}
                     </Button>
                 ))}
