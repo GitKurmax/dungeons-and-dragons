@@ -1,15 +1,17 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import './App.css';
-import { useNavigate } from 'react-router-dom'
+import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom'
+import Spells from "./components/Spells";
 
 function App() {
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        navigate('/spells')
-    }, [])
-
-    return null
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Navigate to="spells" replace />}/>
+                <Route path="spells" element={<Spells/>}/>
+            </Routes>
+        </BrowserRouter>
+    )
 }
 
 export default App;

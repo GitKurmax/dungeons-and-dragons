@@ -122,7 +122,7 @@ function SpellsTable(props: SpellsProps) {
             return createData(item.index, item.name)
         })
         setTableData(tData)
-    }, [data.length])
+    }, [data, data.length])
 
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tableData.length) : 0;
