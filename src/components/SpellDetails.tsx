@@ -27,7 +27,7 @@ const SpellDetails = ({state, closeModal}: { state: Details, closeModal: () => v
     const [subClassDesc, setSubClassDesc] = useState<string>('')
 
     const fetchDetailsData = async (url: string, index: string) => {
-        const res: any = await fetchData(url, true)
+        const res: any = await fetchData(url)
         switch (index) {
             case 'school':
                 setSchoolDesc(res.desc)
@@ -96,7 +96,7 @@ const SpellDetails = ({state, closeModal}: { state: Details, closeModal: () => v
                 <Box component='span' sx={styles.itemTitle}>Damage at slot level:</Box>
                 {state.damage?.damage_at_slot_level?.toString()}
             </Typography>}
-            {state.school && <Typography align={'left'} fontSize={12} fontWeight={400}>
+            {state.school && <Typography component={'div'} align={'left'} fontSize={12} fontWeight={400}>
                 <Box
                     component='span'
                     sx={styles.itemTitle}>
@@ -112,15 +112,15 @@ const SpellDetails = ({state, closeModal}: { state: Details, closeModal: () => v
             {state.classes && <Typography align={'left'} fontSize={12} fontWeight={400}>
                 <Box component='span' sx={styles.itemTitle}>Classes: </Box>
                 {state.classes.map(item => (
-                    <Box component={'span'}>
+                    <Box key={item.index} component={'span'}>
                         {item.name}
                     </Box>
                 ))}
             </Typography>}
-            {state.subclasses && <Typography align={'left'} fontSize={12} fontWeight={400}>
+            {state.subclasses && <Typography component={'div'} align={'left'} fontSize={12} fontWeight={400}>
                 <Box component='span' sx={styles.itemTitle}>Subclasses: </Box>
                 {state.subclasses.map(item => (
-                    <Button color={'secondary'} onClick={() => fetchDetailsData(item.url, 'subClasses')}>
+                    <Button key={item.index} color={'secondary'} onClick={() => fetchDetailsData(item.url, 'subClasses')}>
                         {item.name}
                     </Button>
                 ))}

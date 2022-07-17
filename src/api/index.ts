@@ -1,6 +1,5 @@
-export const url = 'https://www.dnd5eapi.co'
-export const api_url = 'https://www.dnd5eapi.co/api'
+export const api_url = 'https://www.dnd5eapi.co'
 
 export enum Routes {
-    SPELLS = '/spells'
+    SPELLS = '/api/spells'
 }
