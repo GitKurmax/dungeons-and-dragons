@@ -204,19 +204,13 @@ function SpellsTable(props: SpellsProps) {
         <>
             {tableData.length && (
                 <>
-                    <TableContainer component={Paper} sx={{maxWidth: 1040, margin: 'auto', border: 'none'}}>
+                    <TableContainer component={Paper} sx={styles.tableContainer}>
                         <Table sx={{minWidth: 250}} aria-label="custom pagination table">
                             <TableHead>
                                 <TableRow>
                                     <TableCell sx={{
                                         ...styles.headerTitle,
-                                        width: '160px',
-                                        '@media screen and (max-width: 450px)': {
-                                            width: 'max-content',
-                                            fontSize: '14px',
-                                            display: 'flex',
-                                            flexDirection: 'column'
-                                        }
+                                        ...styles.favoriteCell
                                     }} align="left">
                                         Favorite
                                         <Switch
@@ -228,10 +222,7 @@ function SpellsTable(props: SpellsProps) {
                                     </TableCell>
                                     <TableCell sx={{
                                         ...styles.headerTitle,
-                                        '@media screen and (max-width: 450px)': {
-                                            verticalAlign: 'top',
-                                            fontSize: '14px'
-                                        }
+                                        ...styles.spellTitleCell
                                     }} align={'left'}>Spell</TableCell>
                                     <TableCell align="right" sx={{width: '60px'}}></TableCell>
                                 </TableRow>
@@ -286,11 +277,7 @@ function SpellsTable(props: SpellsProps) {
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow>
-                                        <TableRow sx={{
-                                            textAlign: 'center',
-                                            width: '100%',
-                                            border: 'none'
-                                        }}>
+                                        <TableRow sx={styles.detailsRow}>
                                             <TableCell sx={{border: 'none', padding: 0}} colSpan={3}>
                                                 <Box sx={{
                                                     maxHeight: detailsOpen.includes(row.index) ? '1700px' : 0,
@@ -325,17 +312,7 @@ function SpellsTable(props: SpellsProps) {
                             <TableFooter>
                                 <TableRow>
                                     <TablePagination
-                                        sx={{
-                                            color: '#9c27b0',
-                                            '& .MuiButtonBase-root': {
-                                                color: '#9c27b0',
-                                            },
-                                            '& .MuiToolbar-root': {
-                                                flexWrap: 'wrap',
-                                                justifyContent: 'center',
-                                                padding: '0 16px'
-                                            }
-                                        }}
+                                        sx={styles.pagination}
                                         rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}
                                         colSpan={3}
                                         count={showFavorite ? favoriteIndex.length : tableData.length}
@@ -366,10 +343,30 @@ function SpellsTable(props: SpellsProps) {
 export default SpellsTable
 
 const styles = {
+    tableContainer: {
+        maxWidth: 1040,
+        margin: 'auto',
+        border: 'none'
+    },
     headerTitle: {
         fontSize: 18,
         fontWeight: 700,
         color: '#9c27b0',
+    },
+    favoriteCell: {
+        width: '160px',
+        '@media screen and (max-width: 450px)': {
+            width: 'max-content',
+            fontSize: '14px',
+            display: 'flex',
+            flexDirection: 'column'
+        }
+    },
+    spellTitleCell: {
+        '@media screen and (max-width: 450px)': {
+            verticalAlign: 'top',
+            fontSize: '14px'
+        }
     },
     rowTitle: {
         fontSize: 18,
@@ -379,5 +376,21 @@ const styles = {
     },
     favorite: {
         cursor: 'pointer'
+    },
+    pagination: {
+        color: '#9c27b0',
+        '& .MuiButtonBase-root': {
+            color: '#9c27b0',
+        },
+        '& .MuiToolbar-root': {
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            padding: '0 16px'
+        }
+    },
+    detailsRow: {
+        textAlign: 'center',
+        width: '100%',
+        border: 'none'
     }
 }
