@@ -2,6 +2,8 @@
 
 Test task by Alexander Kurmoiarov
 
+To start project you need .env.development file with api url variable 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

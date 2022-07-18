@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from "@mui/material/Box";
-import {Details} from "../types/types";
+import {Details} from "../../types/types";
 import {Button} from "@mui/material";
 
 type RowDetailsProps = {

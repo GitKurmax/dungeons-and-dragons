@@ -18,12 +18,12 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import {Details, Spell} from '../types/types'
-import {fetchData} from '../utils'
-import {Routes} from '../api'
-import RowDetails from "./RowDetails";
+import {Details, Spell} from '../../types/types'
+import {fetchData} from '../../utils'
+import {Routes} from '../../types/types'
+import RowDetails from "../rowDetails/RowDetails";
 import {Switch} from "@mui/material";
-import TransitionsModal from "./Modal";
+import TransitionsModal from "../modal/Modal";
 
 type TableDataType = {
     index: string,
@@ -232,20 +232,10 @@ function SpellsTable(props: SpellsProps) {
                                 ).map((row: TableDataType) => (
                                     <React.Fragment key={row.index}>
                                         <TableRow sx={{
-                                            '& .MuiTableCell-root:nth-of-type(2)': {
-                                                fontSize: detailsOpen.includes(row.index) ? '24px' : '16px',
+                                            background: detailsOpen.includes(row.index) ? 'rgba(238, 238, 238, 0.5)' : '#fff',
+                                            '&:hover': {
+                                                background: 'rgba(238, 238, 238, 0.5)',
                                             },
-                                            '&:hover .MuiTableCell-root:nth-of-type(2)': {
-                                                fontSize: '28px',
-                                            },
-                                            '@media screen and (max-width: 450px)': {
-                                                '& .MuiTableCell-root:nth-of-type(2)': {
-                                                    fontSize: detailsOpen.includes(row.index) ? '18px' : '16px',
-                                                },
-                                                '&:hover .MuiTableCell-root:nth-of-type(2)': {
-                                                    fontSize: '18px',
-                                                },
-                                            }
                                         }}>
                                             <TableCell component="th" scope="row" sx={{
                                                 ...styles.rowTitle,
@@ -268,9 +258,9 @@ function SpellsTable(props: SpellsProps) {
                                             <TableCell align="right">
                                                 <IconButton onClick={() => showDetails(row.index)}>
                                                     <ExpandMoreIcon color={'secondary'}
-                                                                    sx={{
-                                                                        transform: detailsOpen.includes(row.index) ? 'rotate(180deg)' : ''
-                                                                    }}
+                                                        sx={{
+                                                            transform: detailsOpen.includes(row.index) ? 'rotate(180deg)' : ''
+                                                        }}
                                                     />
                                                 </IconButton>
                                             </TableCell>

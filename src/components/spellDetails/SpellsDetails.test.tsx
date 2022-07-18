@@ -1,10 +1,11 @@
 import React from 'react';
-import * as fetchDataModule from "../utils";
-import Modal from './Modal'
-import {fireEvent, render, screen} from '@testing-library/react'
+import SpellDetails from './SpellDetails';
+import {fireEvent, render, screen, waitFor} from "@testing-library/react";
+import * as fetchDataModule from "../../utils";
 
-describe('Modal', () => {
-    const details = {
+describe('SpellDetails', () => {
+    const f = jest.spyOn(fetchDataModule, 'fetchData')
+    const state = {
         _id: "62cc8c3daa61186cf1c76c25",
         attack_type: "ranged",
         casting_time: "1 action",
@@ -44,23 +45,40 @@ describe('Modal', () => {
         url: "/api/spells/acid-arrow",
     }
 
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
-
     afterEach(() => {
         jest.clearAllMocks();
     });
 
-    test('calls handleOpen function', async () => {
-        const handleOpen = jest.fn()
+    test('renders school description', async () => {
+        f.mockImplementationOnce(() => Promise.resolve({
+            index: 'string',
+            name: 'string',
+            url: 'string',
+            desc: 'Description'
+        }))
 
-        render(<Modal open={true} handleOpen={handleOpen} detailsObj={details}/>);
+        render(<SpellDetails state={state} closeModal={() => {}}/>);
 
-        fireEvent.click(screen.getByTestId("CloseIcon"))
+        fireEvent.click(screen.getByText(/Evocation/i))
+        await waitFor(() => {
+            expect(screen.getByText('Description')).toBeInTheDocument()
+        })
+    });
 
-        expect(handleOpen).toHaveBeenCalled();
-        expect(handleOpen).toHaveBeenCalledWith(false);
+    test('renders subclass description', async () => {
+        f.mockImplementationOnce(() => Promise.resolve({
+            index: 'string',
+            name: 'string',
+            url: 'string',
+            desc: 'Subclass description'
+        }))
+
+        render(<SpellDetails state={state} closeModal={() => {}}/>);
+
+        fireEvent.click(screen.getByText(/Lore/i))
+        await waitFor(() => {
+            expect(screen.getByText('Subclass description')).toBeInTheDocument()
+        })
     });
 })
 

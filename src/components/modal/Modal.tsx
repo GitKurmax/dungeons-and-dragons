@@ -2,8 +2,14 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Fade from '@mui/material/Fade'
-import SpellDetails from "./SpellDetails"
-import {Details} from "../types/types"
+import SpellDetails from "../spellDetails/SpellDetails"
+import {Details} from "../../types/types"
+
+type ModalProps = {
+    open: boolean,
+    handleOpen: (state: boolean)=> void,
+    detailsObj: Details
+}
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -22,7 +28,7 @@ const style = {
     p: 4,
 };
 
-export default function TransitionsModal({open, handleOpen, detailsObj}: {open: boolean, handleOpen: (state: boolean)=> void, detailsObj: Details}) {
+export default function TransitionsModal({open, handleOpen, detailsObj}: ModalProps) {
     const handleClose = () => {
         handleOpen(false)
     }
@@ -38,7 +44,7 @@ export default function TransitionsModal({open, handleOpen, detailsObj}: {open: 
             >
                 <Fade in={open}>
                     <Box sx={style}>
-                        <SpellDetails state={detailsObj} closeModal={() => handleOpen(false)}/>
+                        <SpellDetails state={detailsObj} closeModal={handleClose}/>
                     </Box>
                 </Fade>
             </Modal>

@@ -1,11 +1,9 @@
 import React from 'react';
-import SpellDetails from './SpellDetails';
-import {fireEvent, render, screen, waitFor} from "@testing-library/react";
-import * as fetchDataModule from "../utils";
+import Modal from './Modal'
+import {fireEvent, render, screen} from '@testing-library/react'
 
-describe('SpellDetails', () => {
-    const f = jest.spyOn(fetchDataModule, 'fetchData')
-    const state = {
+describe('Modal', () => {
+    const details = {
         _id: "62cc8c3daa61186cf1c76c25",
         attack_type: "ranged",
         casting_time: "1 action",
@@ -53,36 +51,15 @@ describe('SpellDetails', () => {
         jest.clearAllMocks();
     });
 
-    test('renders school description', async () => {
-        f.mockImplementationOnce(() => Promise.resolve({
-            index: 'string',
-            name: 'string',
-            url: 'string',
-            desc: 'Description'
-        }))
+    test('calls handleOpen function', async () => {
+        const handleOpen = jest.fn()
 
-        render(<SpellDetails state={state} closeModal={() => {}}/>);
+        render(<Modal open={true} handleOpen={handleOpen} detailsObj={details}/>);
 
-        fireEvent.click(screen.getByText(/Evocation/i))
-        await waitFor(() => {
-            expect(screen.getByText('Description')).toBeInTheDocument()
-        })
-    });
+        fireEvent.click(screen.getByTestId("CloseIcon"))
 
-    test('renders subclass description', async () => {
-        f.mockImplementationOnce(() => Promise.resolve({
-            index: 'string',
-            name: 'string',
-            url: 'string',
-            desc: 'Subclass description'
-        }))
-
-        render(<SpellDetails state={state} closeModal={() => {}}/>);
-
-        fireEvent.click(screen.getByText(/Lore/i))
-        await waitFor(() => {
-            expect(screen.getByText('Subclass description')).toBeInTheDocument()
-        })
+        expect(handleOpen).toHaveBeenCalled();
+        expect(handleOpen).toHaveBeenCalledWith(false);
     });
 })
 

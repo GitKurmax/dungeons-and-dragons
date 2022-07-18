@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import Spells from './Spells'
-import * as fetchDataModule from "../utils"
+import * as fetchDataModule from "../../utils"
 
 describe('Spells', () => {
     const f = jest.spyOn(fetchDataModule, 'fetchData')

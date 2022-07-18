@@ -1,9 +1,13 @@
 import React, {useState} from 'react'
 import {Button, IconButton, Paper, Typography} from '@mui/material'
-import {Details, SpellWithDescription} from "../types/types"
+import {Details, SpellWithDescription} from "../../types/types"
 import Box from "@mui/material/Box"
 import CloseIcon from '@mui/icons-material/Close'
-import {fetchData} from "../utils"
+import {fetchData} from "../../utils"
+
+type SpellDetailsProps = {
+    state: Details, closeModal: () => void
+}
 
 const styles = {
     paper: {
@@ -22,7 +26,7 @@ const styles = {
     }
 }
 
-const SpellDetails = ({state, closeModal}: { state: Details, closeModal: () => void }) => {
+const SpellDetails = ({state, closeModal}: SpellDetailsProps) => {
     const [schoolDesc, setSchoolDesc] = useState<string>('')
     const [subClassDesc, setSubClassDesc] = useState<string>('')
 
