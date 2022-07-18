@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Fade from '@mui/material/Fade'
 import SpellDetails from "../spellDetails/SpellDetails"
-import {Details} from "../../types/types"
+import { Details } from "../../types/types"
 
 type ModalProps = {
     open: boolean,
@@ -26,9 +26,9 @@ const style = {
     borderRadius: '15px',
     boxShadow: 24,
     p: 4,
-};
+}
 
-export default function TransitionsModal({open, handleOpen, detailsObj}: ModalProps) {
+export default function TransitionsModal({ open, handleOpen, detailsObj }: ModalProps) {
     const handleClose = () => {
         handleOpen(false)
     }

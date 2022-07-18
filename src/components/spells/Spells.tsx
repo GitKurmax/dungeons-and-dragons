@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react'
-import {errorResponse, fetchResponse, Spell} from '../../types/types'
+import React, { useEffect, useState } from 'react'
+import { errorResponse, fetchResponse, Spell } from '../../types/types'
 import SpellsTable from '../spellsTable/SpellsTable'
 
 import styles from './Spells.module.css'
-import {Routes} from '../../utils/constants'
-import {fetchData} from '../../utils'
-import {CircularProgress, Typography} from '@mui/material'
+import { Routes } from '../../utils/constants'
+import { fetchData } from '../../utils'
+import { CircularProgress, Typography } from '@mui/material'
 
 const Spells = () => {
     const [spellsResponse, setSpellsResponse] = useState<Spell[] | errorResponse>([])

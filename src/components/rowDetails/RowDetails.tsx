@@ -1,7 +1,7 @@
-import React from 'react';
-import Box from "@mui/material/Box";
-import {Details} from "../../types/types";
-import {Button} from "@mui/material";
+import React from 'react'
+import Box from '@mui/material/Box'
+import { Details } from '../../types/types'
+import { Button } from '@mui/material'
 
 type RowDetailsProps = {
     details: Details
@@ -39,7 +39,7 @@ const styles = {
 }
 
 function RowDetails(props: RowDetailsProps): JSX.Element {
-    const {details, openModal} = props
+    const { details, openModal } = props
 
     const handleViewDetails = () => {
         openModal(true)
@@ -98,4 +98,4 @@ function RowDetails(props: RowDetailsProps): JSX.Element {
     )
 }
 
-export default RowDetails;
+export default RowDetails

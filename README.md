@@ -2,7 +2,8 @@
 
 Test task by Alexander Kurmoiarov
 
-To start project you need .env.development file with api url variable 
+To start project you need .env.development file with api url variable
+You can find it in repository but it`s a bad practice. This file must be added to .gitignore.
 
 # Getting Started with Create React App
 

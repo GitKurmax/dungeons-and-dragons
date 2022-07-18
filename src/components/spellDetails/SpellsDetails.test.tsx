@@ -1,6 +1,6 @@
 import React from 'react';
 import SpellDetails from './SpellDetails';
-import {fireEvent, render, screen, waitFor} from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import * as fetchDataModule from "../../utils";
 
 describe('SpellDetails', () => {
