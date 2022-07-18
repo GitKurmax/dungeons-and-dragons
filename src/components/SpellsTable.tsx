@@ -113,7 +113,7 @@ function SpellsTable(props: SpellsProps) {
     const [detailsOpen, setDetailsOpen] = useState<string[]>([])
     const [favoriteIndex, setFavotiteIndex] = useState<string[]>([])
     const [showFavorite, setShowFavorite] = useState<boolean>(false)
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState<boolean>(false);
     const [openModal, setOpenModal] = useState<boolean>(false)
     const [spellDetailIndex, setSpellDetailIndex] = useState<string>('')
 
@@ -185,11 +185,9 @@ function SpellsTable(props: SpellsProps) {
 
     const handleSwitch = () => {
         if (!checked) {
-            setShowFavorite(true)
             setPage(0)
-        } else {
-            setShowFavorite(false)
         }
+        setShowFavorite(!checked)
         setChecked(!checked)
     }
 

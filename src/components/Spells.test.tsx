@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import Spells from './Spells'
 import * as fetchDataModule from "../utils"
 
@@ -12,19 +12,19 @@ describe('Spells', () => {
 
     test("renders error", async () => {
         f.mockImplementationOnce(() => Promise.resolve({error: 'error'}))
-        const { getByText } = render(<Spells/>)
+        render(<Spells/>)
 
         await waitFor(() => {
-            expect(getByText("error")).toBeInTheDocument();
+            expect(screen.getByText("error")).toBeInTheDocument();
         })
     })
 
     test("renders table", async () => {
         f.mockImplementationOnce(() => Promise.resolve({results: ['1']}))
-        const { container } = render(<Spells/>)
+        render(<Spells/>)
 
         await waitFor(() => {
-            expect(container.querySelector('table')).toBeInTheDocument();
+            expect(screen.getByRole('table')).toBeInTheDocument();
         })
     })
 })

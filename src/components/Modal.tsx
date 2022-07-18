@@ -23,13 +23,17 @@ const style = {
 };
 
 export default function TransitionsModal({open, handleOpen, detailsObj}: {open: boolean, handleOpen: (state: boolean)=> void, detailsObj: Details}) {
+    const handleClose = () => {
+        handleOpen(false)
+    }
+
     return (
         <div>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 open={open}
-                onClose={() => handleOpen(false)}
+                onClose={handleClose}
                 closeAfterTransition
             >
                 <Fade in={open}>
