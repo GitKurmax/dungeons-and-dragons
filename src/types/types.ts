@@ -1,7 +1,3 @@
-export enum Routes {
-    SPELLS = '/api/spells'
-}
-
 export type Details = {
     _id: string
     attack_type: string

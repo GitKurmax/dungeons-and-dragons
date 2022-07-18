@@ -20,7 +20,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {Details, Spell} from '../../types/types'
 import {fetchData} from '../../utils'
-import {Routes} from '../../types/types'
+import {Routes} from '../../utils/constants'
 import RowDetails from "../rowDetails/RowDetails";
 import {Switch} from "@mui/material";
 import TransitionsModal from "../modal/Modal";

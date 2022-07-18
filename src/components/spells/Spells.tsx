@@ -3,7 +3,7 @@ import {errorResponse, fetchResponse, Spell} from '../../types/types'
 import SpellsTable from '../spellsTable/SpellsTable'
 
 import styles from './Spells.module.css'
-import {Routes} from '../../types/types'
+import {Routes} from '../../utils/constants'
 import {fetchData} from '../../utils'
 import {CircularProgress, Typography} from '@mui/material'
 
